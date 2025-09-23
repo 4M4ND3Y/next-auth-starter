@@ -38,7 +38,7 @@ export default function LoginPage() {
       console.log("Login Successful!", response.data);
       setTimeout(() => {
         router.push("/profile");
-      }, 2000);
+      }, 1000);
       return toast.success("You have successfully been logged in");
     } catch (error: any) {
       console.log("Login Failed!", error.message);
