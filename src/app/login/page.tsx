@@ -1,0 +1,110 @@
+"use client";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { ModeToggle } from "@/components/ui/mode-toggler";
+import { Toaster, toast } from "sonner";
+import { Loader2Icon } from "lucide-react";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [user, setUser] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
+
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+
+  const [loading, setLoading] = React.useState(false);
+
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+      console.log("Login Successful!", response.data);
+      setTimeout(() => {
+        router.push("/profile");
+      }, 2000);
+      return toast.success("You have successfully been logged in");
+    } catch (error: any) {
+      console.log("Login Failed!", error.message);
+      return toast.error("Login unsuccessful!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <div className="w-xs flex flex-col border-4 border-b-amber-50 p-4">
+        {/* Dark Mode Toggler */}
+        <div className="flex flex-col items-end">
+          <ModeToggle />
+        </div>
+        <h1 className="text-center text-3xl font-bold pb-5">Login</h1>
+
+        {/* Email */}
+        <Label htmlFor="email" className="p-2">
+          Email
+        </Label>
+        <Input
+          type="email"
+          placeholder="Email"
+          className="mb-5"
+          value={user.email}
+          onChange={(event) => setUser({ ...user, email: event.target.value })}
+        />
+
+        {/* Password */}
+        <Label htmlFor="password" className="p-2">
+          Password
+        </Label>
+        <Input
+          type="password"
+          placeholder="Password"
+          className="mb-5"
+          value={user.password}
+          onChange={(event) =>
+            setUser({ ...user, password: event.target.value })
+          }
+        />
+
+        {/* Button */}
+        <div className="flex justify-center-safe">
+          <Toaster richColors />
+          {loading ? (
+            <Button className="w-25" disabled>
+              <Loader2Icon className="animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button
+              onClick={onLogin}
+              disabled={buttonDisabled}
+              className="w-25"
+            >
+              Login
+            </Button>
+          )}
+          <Link href="/signup">
+            <Button variant="ghost">Not registered? Signup</Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
