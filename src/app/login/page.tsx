@@ -4,12 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ModeToggle } from "@/components/ui/mode-toggler";
 import { Toaster, toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
+import { NextResponse } from "next/server";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function LoginPage() {
     password: "",
   });
 
-  const [buttonDisabled, setButtonDisabled] = React.useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
     if (user.email.length > 0 && user.password.length > 0) {
@@ -36,9 +37,11 @@ export default function LoginPage() {
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
       console.log("Login Successful!", response.data);
+
       setTimeout(() => {
-        router.push("/profile");
+        router.push(`/profile`);
       }, 1000);
+
       return toast.success("You have successfully been logged in");
     } catch (error: any) {
       console.log("Login Failed!", error.message);
