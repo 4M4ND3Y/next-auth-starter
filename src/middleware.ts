@@ -12,8 +12,19 @@ export function middleware(request: NextRequest) {
   if (!isPublicPath && !token) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
+
+  if (path === "/verifyemail" && !token) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
 }
 
 export const config = {
-  matcher: ["/", "/profile", "/profile/:path*", "/login", "/signup"],
+  matcher: [
+    "/",
+    "/profile",
+    "/profile/:path*",
+    "/login",
+    "/signup",
+    "/verifyemail",
+  ],
 };
