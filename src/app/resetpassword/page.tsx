@@ -1,68 +1,69 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 import { ModeToggle } from "@/components/ui/mode-toggler";
-import { Toaster, toast } from "sonner";
+import axios from "axios";
 import { Loader2Icon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "sonner";
 import {
   HoverCard,
-  HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+  HoverCardContent,
+} from "@radix-ui/react-hover-card";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
-export default function SignupPage() {
+export default function resetPasswordPage() {
   const router = useRouter();
-  const [user, setUser] = React.useState({
-    username: "",
-    email: "",
-    password: "",
-  });
 
-  const [buttonDisabled, setButtonDisabled] = React.useState(true);
+  const [token, setToken] = useState("");
+  const [error, setError] = useState(false);
+  const [user, setUser] = useState({ password: "" });
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const resetUserPassword = async () => {
+    try {
+      setLoading(true);
+      await axios.post("/api/users/resetpassword", { user, token });
+      setTimeout(() => {
+        router.push("/profile");
+      }, 2000);
+      return toast.success("Password updated successfully");
+    } catch (error: any) {
+      setError(true);
+      console.log(error.response.data);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+      return toast.error("Password couldn't be updated");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (
-      user.username.length > 0 &&
-      user.email.length > 0 &&
-      user.password.length > 0
-    ) {
+    const urlToken = window.location.search.split("=")[1];
+    setToken(urlToken || "");
+  });
+
+  useEffect(() => {
+    if (user.password.length > 0) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
   }, [user]);
 
-  const [loading, setLoading] = React.useState(false);
-
-  const onSignup = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/users/signup", user);
-      console.log("Signup Successful!", response.data);
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
-      return toast.success("You have successfully signed up");
-    } catch (error: any) {
-      console.log("Signup Failed!", error.message);
-      return toast.error("Registration unsuccessful!");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="h-screen flex items-center justify-center flex-col">
       <HoverCard>
         <HoverCardTrigger asChild>
-          <h1 className="text-4xl mb-15">Next Auth Starter</h1>
+          <h1 className="text-4xl mb-20">Next Auth Starter</h1>
         </HoverCardTrigger>
         <HoverCardContent className="w-80">
           <div className="flex justify-between gap-4">
@@ -88,47 +89,20 @@ export default function SignupPage() {
           </div>
         </HoverCardContent>
       </HoverCard>
-      <div className="w-s flex flex-col border-4 border-b-amber-50 p-4">
+      <div className="w-xs flex flex-col border-4 border-b-amber-50 p-4">
         {/* Dark Mode Toggler */}
         <div className="flex flex-col items-end">
           <ModeToggle />
         </div>
-        <h1 className="text-center text-3xl font-bold pb-5">Signup</h1>
-
-        {/* Username */}
-        <Label htmlFor="username" className="p-2">
-          Username
-        </Label>
-        <Input
-          type="username"
-          placeholder="Username"
-          className="mb-5"
-          value={user.username}
-          onChange={(event) =>
-            setUser({ ...user, username: event.target.value })
-          }
-        />
-
-        {/* Email */}
-        <Label htmlFor="email" className="p-2">
-          Email
-        </Label>
-        <Input
-          type="email"
-          placeholder="Email"
-          className="mb-5"
-          value={user.email}
-          onChange={(event) => setUser({ ...user, email: event.target.value })}
-        />
+        <h1 className="text-center text-3xl font-bold pb-5">Login</h1>
 
         {/* Password */}
         <Label htmlFor="password" className="p-2">
-          Password
+          Enter New Password
         </Label>
         <Input
           type="password"
           placeholder="Password"
-          className="mb-5"
           value={user.password}
           onChange={(event) =>
             setUser({ ...user, password: event.target.value })
@@ -139,23 +113,19 @@ export default function SignupPage() {
         <div className="flex justify-center-safe">
           <Toaster richColors />
           {loading ? (
-            <Button className="w-25" disabled>
+            <Button className="w-25 mt-5" disabled>
               <Loader2Icon className="animate-spin" />
               Please wait
             </Button>
           ) : (
             <Button
-              onClick={onSignup}
+              onClick={resetUserPassword}
               disabled={buttonDisabled}
-              className="w-25"
+              className="w-25 mt-5"
             >
-              Register
+              Submit
             </Button>
           )}
-
-          <Link href="/login">
-            <Button variant="ghost">Already registered? Login</Button>
-          </Link>
         </div>
       </div>
       <h3 className="mt-10">

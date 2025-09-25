@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     await user.save();
 
     return NextResponse.json({
-      message: "User verified successfully",
+      message: "User verified successfully!",
       success: true,
     });
   } catch (error: any) {

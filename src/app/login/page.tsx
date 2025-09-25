@@ -10,7 +10,17 @@ import axios from "axios";
 import { ModeToggle } from "@/components/ui/mode-toggler";
 import { Toaster, toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
-import { NextResponse } from "next/server";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,8 +61,53 @@ export default function LoginPage() {
     }
   };
 
+  const [resetLoading, setResetLoading] = useState(false);
+  const onReset = async () => {
+    try {
+      setResetLoading(true);
+      await axios.post("/api/users/send-reset-email", user);
+      return toast.success(
+        "Email sent successfully! Please check your mail to reset your password."
+      );
+    } catch (error: any) {
+      console.log(error.response.data);
+      return toast.error("Mail to reset password couldn't be sent");
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center flex-col">
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <h1 className="text-4xl mb-20">Next Auth Starter</h1>
+        </HoverCardTrigger>
+        <HoverCardContent className="w-80">
+          <div className="flex justify-between gap-4">
+            <Avatar>
+              <AvatarImage src="/amandey.png" />
+              <AvatarFallback>AD</AvatarFallback>
+            </Avatar>
+            <div className="flex justify-between gap-4">
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold">@next-auth-starter</h4>
+                <p className="text-sm">
+                  A basic authentication system build with MongoDB in Next.js
+                  created by{" "}
+                  <Link
+                    href="https://github.com/4M4ND3Y"
+                    className="text-amber-300"
+                  >
+                    @4M4ND3Y
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+
       <div className="w-xs flex flex-col border-4 border-b-amber-50 p-4">
         {/* Dark Mode Toggler */}
         <div className="flex flex-col items-end">
@@ -79,12 +134,36 @@ export default function LoginPage() {
         <Input
           type="password"
           placeholder="Password"
-          className="mb-5"
           value={user.password}
           onChange={(event) =>
             setUser({ ...user, password: event.target.value })
           }
         />
+        {resetLoading ? (
+          <Button className="w-25 flex self-end p-0" variant="link" disabled>
+            <Loader2Icon className="animate-spin" />
+            Please wait
+          </Button>
+        ) : (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="link"
+                className="flex self-end p-0"
+                style={{ fontSize: "10px" }}
+                onClick={onReset}
+              >
+                Forgot Password?
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>
+                Please enter your email in the email input and then press forgot
+                password to reset your password
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        )}
 
         {/* Button */}
         <div className="flex justify-center-safe">
@@ -108,6 +187,12 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
+      <h3 className="mt-10">
+        Made with ❤️ by{" "}
+        <Link href="https://github.com/4M4ND3Y" className="underline">
+          Aman Dey
+        </Link>
+      </h3>
     </div>
   );
 }
