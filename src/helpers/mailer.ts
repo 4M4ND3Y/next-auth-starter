@@ -2,12 +2,19 @@ import nodemailer from "nodemailer";
 import User from "@/models/userModel";
 import bcrypt from "bcryptjs";
 
+interface EmailParams {
+  email: string;
+  username: string;
+  emailType: "VERIFY" | "RESET";
+  userID: string;
+}
+
 export const sendEmail = async ({
   email,
   username,
   emailType,
   userID,
-}: any) => {
+}: EmailParams) => {
   try {
     // create a hashed token
     const hashedToken = await bcrypt.hash(userID.toString(), 10);
@@ -118,7 +125,7 @@ export const sendEmail = async ({
     `;
 
     // Nodemailer with Gmail SMTP
-    var transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: process.env.GMAIL_SMTP_SERVICE,
       host: process.env.GMAIL_SMTP_HOST,
       port: Number(process.env.GMAIL_SMTP_PORT),
@@ -147,8 +154,10 @@ export const sendEmail = async ({
       success: true,
       messageId: mailResponse.messageId,
     };
-  } catch (error: any) {
-    console.error("Error sending email:", error.message);
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Email sending failed";
+    console.error("Error sending email:", errorMessage);
+    throw new Error(errorMessage);
   }
 };

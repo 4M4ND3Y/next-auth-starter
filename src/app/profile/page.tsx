@@ -22,8 +22,8 @@ export default function Profile() {
     try {
       await axios.get("api/users/logout");
       router.push("/login");
-    } catch (error: any) {
-      console.log(error.message);
+    } catch (error: unknown) {
+      console.log(error instanceof Error ? error.message : "Unknown error");
     }
   };
 
@@ -51,15 +51,18 @@ export default function Profile() {
       return toast.success(
         "Email has been sent successfully! Please check your mail."
       );
-    } catch (error: any) {
-      console.log("Error : ", error.message);
+    } catch (error: unknown) {
+      console.log(
+        "Error : ",
+        error instanceof Error ? error.message : "Unknown error"
+      );
       return toast.error("Email couldn't be sent!");
     } finally {
       setLoading(false);
     }
   };
 
-  let profilePictures = ["s", "sh", "sha", "shad", "shadc", "shadcn"];
+  const profilePictures = ["s", "sh", "sha", "shad", "shadc", "shadcn"];
 
   return (
     <div className="w-screen h-screen flex justify-center items-center flex-col">

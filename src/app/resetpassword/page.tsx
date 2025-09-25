@@ -17,11 +17,10 @@ import {
 } from "@radix-ui/react-hover-card";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
-export default function resetPasswordPage() {
+export default function ResetPasswordPage() {
   const router = useRouter();
 
   const [token, setToken] = useState("");
-  const [error, setError] = useState(false);
   const [user, setUser] = useState({ password: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -34,9 +33,8 @@ export default function resetPasswordPage() {
         router.push("/profile");
       }, 2000);
       return toast.success("Password updated successfully");
-    } catch (error: any) {
-      setError(true);
-      console.log(error.response.data);
+    } catch (error: unknown) {
+      console.log(error);
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -49,7 +47,7 @@ export default function resetPasswordPage() {
   useEffect(() => {
     const urlToken = window.location.search.split("=")[1];
     setToken(urlToken || "");
-  });
+  }, []);
 
   useEffect(() => {
     if (user.password.length > 0) {

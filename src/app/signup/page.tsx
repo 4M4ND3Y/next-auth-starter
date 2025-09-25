@@ -50,8 +50,11 @@ export default function SignupPage() {
         router.push("/login");
       }, 2000);
       return toast.success("You have successfully signed up");
-    } catch (error: any) {
-      console.log("Signup Failed!", error.message);
+    } catch (error: unknown) {
+      console.log(
+        "Signup Failed!",
+        error instanceof Error ? error.message : "Unknown error"
+      );
       return toast.error("Registration unsuccessful!");
     } finally {
       setLoading(false);

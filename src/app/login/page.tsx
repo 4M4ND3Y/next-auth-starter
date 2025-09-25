@@ -53,8 +53,11 @@ export default function LoginPage() {
       }, 1000);
 
       return toast.success("You have successfully been logged in");
-    } catch (error: any) {
-      console.log("Login Failed!", error.message);
+    } catch (error: unknown) {
+      console.log(
+        "Login Failed!",
+        error instanceof Error ? error.message : "Unknown error"
+      );
       return toast.error("Login unsuccessful!");
     } finally {
       setLoading(false);
@@ -69,8 +72,8 @@ export default function LoginPage() {
       return toast.success(
         "Email sent successfully! Please check your mail to reset your password."
       );
-    } catch (error: any) {
-      console.log(error.response.data);
+    } catch (error: unknown) {
+      console.log(error);
       return toast.error("Mail to reset password couldn't be sent");
     } finally {
       setResetLoading(false);
