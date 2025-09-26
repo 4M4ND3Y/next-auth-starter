@@ -16,6 +16,10 @@ export function middleware(request: NextRequest) {
   if (path === "/verifyemail" && !token) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
+
+  if (path === "/" && token) {
+    return NextResponse.redirect(new URL("/profile", request.nextUrl));
+  }
 }
 
 export const config = {
