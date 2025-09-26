@@ -1,5 +1,5 @@
 {
-  "name": "next-js-auth",
+  "name": "nextauth-lite",
   "version": "0.1.0",
   "private": true,
   "scripts": {

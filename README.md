@@ -1,4 +1,4 @@
-# Next Auth Starter
+# NextAuth Lite
 
 A comprehensive authentication system built with **Next.js 15**, **TypeScript**, and **MongoDB**. This starter template provides a complete foundation for applications requiring user authentication, email verification, and password reset functionality.
 
@@ -94,8 +94,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/4M4ND3Y/next-auth-starter.git
-cd next-auth-starter
+git clone https://github.com/4M4ND3Y/nextauth-lite.git
+cd nextauth-lite
 ```
 
 ### 2. Install Dependencies
@@ -114,7 +114,7 @@ Create a `.env.local` file in the root directory:
 
 ```env
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/next-auth-starter
+MONGODB_URI=mongodb://localhost:27017/nextauth-lite
 # For MongoDB Atlas: mongodb atlas connection string
 
 # JWT Configuration
@@ -130,7 +130,7 @@ GMAIL_SMTP_PORT=587
 GMAIL_SMTP_SECURE=false
 GMAIL_SMTP_USERNAME=your-gmail@gmail.com
 GMAIL_SMTP_PASSWORD=your-app-password
-EMAIL_FROM="Next Auth Starter <your-gmail@gmail.com>"
+EMAIL_FROM="NextAuth Lite <your-gmail@gmail.com>"
 ```
 
 ### 4. Gmail Configuration
@@ -158,7 +158,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your application.
 ## 📁 Project Structure
 
 ```
-next-auth-starter/
+nextauth-lite/
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── api/               # API Routes

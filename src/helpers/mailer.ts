@@ -42,16 +42,16 @@ export const sendEmail = async ({
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Next Auth Starter</title>
+          <title>Welcome to NextAuth Lite</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-            <h1 style="color: white; margin: 0;">Next Auth Starter</h1>
+            <h1 style="color: white; margin: 0;">NextAuth Lite</h1>
           </div>
           <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
             <h2 style="color: #333;">Hello ${username}!</h2>
-            <p>Welcome to Next Auth Starter! We're very excited to have you on board.</p>
-            <p>To get verified at Next Auth Starter, please click the button below:</p>
+            <p>Welcome to NextAuth Lite! We're very excited to have you on board.</p>
+            <p>To get verified at NextAuth Lite, please click the button below:</p>
             <div style="text-align: center; margin: 30px 0;">
               <a href="${verificationLink}" 
                 style="background: #22BC66; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
@@ -69,9 +69,9 @@ export const sendEmail = async ({
     const verifyEmailTextual = `
       Hello ${username}!
       
-      Welcome to Next Auth Starter! We're very excited to have you on board.
+      Welcome to NextAuth Lite! We're very excited to have you on board.
       
-      To get verified at Next Auth Starter, please visit this link:
+      To get verified at NextAuth Lite, please visit this link:
       ${verificationLink}
       
       Need help, or have questions? Just reply to this email, we'd love to help.
@@ -83,15 +83,15 @@ export const sendEmail = async ({
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Reset Your Password - Next Auth Starter</title>
+          <title>Reset Your Password - NextAuth Lite</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-            <h1 style="color: white; margin: 0;">Next Auth Starter</h1>
+            <h1 style="color: white; margin: 0;">NextAuth Lite</h1>
           </div>
           <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
             <h2 style="color: #333;">Hello ${username}!</h2>
-            <p>We received a request to reset your password for your Next Auth Starter account.</p>
+            <p>We received a request to reset your password for your NextAuth Lite account.</p>
             <p>To reset your password, please click the button below:</p>
             <div style="text-align: center; margin: 30px 0;">
               <a href="${verificationLink}" 
@@ -112,7 +112,7 @@ export const sendEmail = async ({
     const resetEmailTextual = `
       Hello ${username}!
       
-      We received a request to reset your password for your Next Auth Starter account.
+      We received a request to reset your password for your NextAuth Lite account.
       
       To reset your password, please visit this link:
       ${verificationLink}

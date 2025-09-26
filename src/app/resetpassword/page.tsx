@@ -61,7 +61,7 @@ export default function ResetPasswordPage() {
     <div className="h-screen flex items-center justify-center flex-col">
       <HoverCard>
         <HoverCardTrigger asChild>
-          <h1 className="text-4xl mb-20">Next Auth Starter</h1>
+          <h1 className="text-4xl mb-20">NextAuth Lite</h1>
         </HoverCardTrigger>
         <HoverCardContent className="w-80">
           <div className="flex justify-between gap-4">
@@ -71,7 +71,7 @@ export default function ResetPasswordPage() {
             </Avatar>
             <div className="flex justify-between gap-4">
               <div className="space-y-1">
-                <h4 className="text-sm font-semibold">@next-auth-starter</h4>
+                <h4 className="text-sm font-semibold">@nextauth-lite</h4>
                 <p className="text-sm">
                   A basic authentication system build with MongoDB in Next.js
                   created by{" "}
